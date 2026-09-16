@@ -4,25 +4,89 @@ config-version: 2
 
 profile: 'snowflake_learning'
 
-model-paths: ["models"]
-analysis-paths: ["analyses"]
-test-paths: ["tests"]
-seed-paths: ["seeds"]
-macro-paths: ["macros"]
-snapshot-paths: ["snapshots"]
 
-target-path: "target"
+# ============================================================
+# PROJECT PATHS
+# ============================================================
+
+model-paths:
+  - models
+
+analysis-paths:
+  - analyses
+
+test-paths:
+  - tests
+
+seed-paths:
+  - seeds
+
+macro-paths:
+  - macros
+
+snapshot-paths:
+  - snapshots
+
+target-path: target
+
 clean-targets:
-  - "target"
-  - "dbt_packages"
+  - target
+  - dbt_packages
 
-models:
+
+# ============================================================
+# SEED CONFIGURATION
+# ============================================================
+
+seeds:
+
   dq_framework:
-    +materialized: view
 
-vars:
-  audit_database: "SNOWFLAKE_LEARNING_DB"
-  audit_schema: "SCH_AUDIT"
-  audit_results_table: "DQ_RESULTS"
-  audit_config_table: "DQ_TABLE_CONFIG"
-  audit_business_rules_table: "DQ_BUSINESS_RULES"
+    # Database where seed tables will be created
+    +database: SNOWFLAKE_LEARNING_DB
+
+    # Schema where seed tables will be created
+    +schema: SCH_AUDIT
+
+
+    # --------------------------------------------------------
+    # DQ_TABLE_CONFIG
+    # --------------------------------------------------------
+
+    DQ_TABLE_CONFIG:
+
+      +column_types:
+
+        MODEL_FILTER: VARCHAR
+        SRC_TABLE: VARCHAR
+        TGT_TABLE: VARCHAR
+        KEYS: VARCHAR
+
+        EXCLUDED_COLUMNS_SRC: VARCHAR
+        EXCLUDED_COLUMNS_TGT: VARCHAR
+
+        ENABLE_COUNT_CHECK: VARCHAR
+        ENABLE_DUPLICATE_CHECK: VARCHAR
+        ENABLE_NULL_CHECK: VARCHAR
+        ENABLE_STRUCTURE_CHECK: VARCHAR
+        ENABLE_DATA_COMPARISON: VARCHAR
+        ENABLE_BUSINESS_RULE: VARCHAR
+
+        SRC_FILTER: VARCHAR
+        TGT_FILTER: VARCHAR
+
+
+    # --------------------------------------------------------
+    # DQ_BUSINESS_RULES
+    # --------------------------------------------------------
+
+    DQ_BUSINESS_RULES:
+
+      +column_types:
+
+        MODEL_FILTER: VARCHAR
+        SOURCE_TABLE_NAME: VARCHAR
+        TARGET_TABLE_NAME: VARCHAR
+        RULE_NAME: VARCHAR
+        RULE_SQL: VARCHAR
+        IS_ACTIVE: VARCHAR
