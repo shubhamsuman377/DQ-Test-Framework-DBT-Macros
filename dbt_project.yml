@@ -23,6 +23,7 @@ models:
         - 'audit layer'
       +materialized: table
       +transient: true
+      
     snowflake_practice:
       +schema: PRACTICE
       +tags:
