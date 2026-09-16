@@ -1,7 +1,6 @@
 name: 'my_new_project'
 version: '1.0.0'
 config-version: 2
-
 profile: 'default'
 
 model-paths: ["models"]
@@ -10,7 +9,6 @@ test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
-
 target-path: "target"
 
 clean-targets:
@@ -18,11 +16,64 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  my_new_project:
-    example:
-      +materialized: table
-
-    dq:
-      +materialized: table
-      +database: SNOWFLAKE_LEARNING_DB
+  dbt_sscta:
+    snowflake_audit:
       +schema: SCH_AUDIT
+      +tags:
+        - 'audit layer'
+      +materialized: table
+      +transient: true
+    snowflake_practice:
+      +schema: PRACTICE
+      +tags:
+        - 'practice layer'
+      +materialized: table
+      +transient: false
+
+seeds:
+  dbt_sscta:
+    CONFIG_SENSITIVE_DATA_FIELDS:
+      +quote_columns: false
+      +schema: SCH_AUDIT
+      +column_types:
+        TABLE_SCHEMA: string
+        TABLE_NAME: string
+        RECORD_KEY_NAME: string
+        SENSITIVE_COLUMN_NAME: string
+
+    BPO_REFERENCE:
+      +quote_columns: false
+      +schema: SCH_AUDIT
+      +column_types:
+        EIN: string
+        BPO_REFERENCE: string
+
+    DQ_BUSINESS_RULES:
+      +quote_columns: false
+      +schema: SCH_AUDIT
+      +column_types:
+        MODEL_FILTER: string
+        SOURCE_TABLE_NAME: string
+        TARGET_TABLE_NAME: string
+        RULE_NAME: string
+        RULE_SQL: string
+        IS_ACTIVE: string
+
+    DQ_TABLE_CONFIG:
+      +quote_columns: false
+      +schema: SCH_AUDIT
+      +column_types:
+        MODEL_FILTER: string
+        SRC_TABLE: string
+        TGT_TABLE: string
+        KEYS: string
+        EXCLUDED_COLUMNS_SRC: string
+        EXCLUDED_COLUMNS_TGT: string
+        ENABLE_COUNT_CHECK: string
+        ENABLE_DUPLICATE_CHECK: string
+        ENABLE_NULL_CHECK: string
+        ENABLE_STRUCTURE_CHECK: string
+        ENABLE_DATA_COMPARISON: string
+        ENABLE_BUSINESS_RULE: string
+        SRC_FILTER: string
+        TGT_FILTER: string
