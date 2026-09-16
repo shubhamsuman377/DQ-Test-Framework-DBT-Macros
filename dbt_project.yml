@@ -32,22 +32,6 @@ models:
 
 seeds:
   dbt_sscta:
-    CONFIG_SENSITIVE_DATA_FIELDS:
-      +quote_columns: false
-      +schema: SCH_AUDIT
-      +column_types:
-        TABLE_SCHEMA: string
-        TABLE_NAME: string
-        RECORD_KEY_NAME: string
-        SENSITIVE_COLUMN_NAME: string
-
-    BPO_REFERENCE:
-      +quote_columns: false
-      +schema: SCH_AUDIT
-      +column_types:
-        EIN: string
-        BPO_REFERENCE: string
-
     DQ_BUSINESS_RULES:
       +quote_columns: false
       +schema: SCH_AUDIT
