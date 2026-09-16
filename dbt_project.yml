@@ -1,7 +1,8 @@
-name: 'my_new_project'
+name: 'dq_framework'
 version: '1.0.0'
 config-version: 2
-profile: 'default'
+
+profile: 'snowflake_learning'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -9,56 +10,19 @@ test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
-target-path: "target"
 
+target-path: "target"
 clean-targets:
   - "target"
   - "dbt_packages"
 
 models:
-  dbt_sscta:
-    snowflake_audit:
-      +schema: SCH_AUDIT
-      +tags:
-        - 'audit layer'
-      +materialized: table
-      +transient: true
-      
-    snowflake_practice:
-      +schema: PRACTICE
-      +tags:
-        - 'practice layer'
-      +materialized: table
-      +transient: false
+  dq_framework:
+    +materialized: view
 
-seeds:
-  dbt_sscta:
-    DQ_BUSINESS_RULES:
-      +quote_columns: false
-      +schema: SCH_AUDIT
-      +column_types:
-        MODEL_FILTER: string
-        SOURCE_TABLE_NAME: string
-        TARGET_TABLE_NAME: string
-        RULE_NAME: string
-        RULE_SQL: string
-        IS_ACTIVE: string
-
-    DQ_TABLE_CONFIG:
-      +quote_columns: false
-      +schema: SCH_AUDIT
-      +column_types:
-        MODEL_FILTER: string
-        SRC_TABLE: string
-        TGT_TABLE: string
-        KEYS: string
-        EXCLUDED_COLUMNS_SRC: string
-        EXCLUDED_COLUMNS_TGT: string
-        ENABLE_COUNT_CHECK: string
-        ENABLE_DUPLICATE_CHECK: string
-        ENABLE_NULL_CHECK: string
-        ENABLE_STRUCTURE_CHECK: string
-        ENABLE_DATA_COMPARISON: string
-        ENABLE_BUSINESS_RULE: string
-        SRC_FILTER: string
-        TGT_FILTER: string
+vars:
+  audit_database: "SNOWFLAKE_LEARNING_DB"
+  audit_schema: "SCH_AUDIT"
+  audit_results_table: "DQ_RESULTS"
+  audit_config_table: "DQ_TABLE_CONFIG"
+  audit_business_rules_table: "DQ_BUSINESS_RULES"
