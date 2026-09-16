@@ -43,7 +43,7 @@ seeds:
   dq_framework:
 
     +database: SNOWFLAKE_LEARNING_DB
-
+    +schema: SCH_AUDIT
 
     # ========================================================
     # DQ_TABLE_CONFIG
