@@ -35,17 +35,14 @@ clean-targets:
 
 
 # ============================================================
-# SEED CONFIGURATION
+# SEEDS
 # ============================================================
 
 seeds:
 
   dq_framework:
 
-    # Database where seed tables will be created
     +database: SNOWFLAKE_LEARNING_DB
-
-    # Schema where seed tables will be created
     +schema: SCH_AUDIT
 
 
