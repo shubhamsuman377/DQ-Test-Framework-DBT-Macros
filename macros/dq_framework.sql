@@ -4,7 +4,7 @@
 
 {% macro insert_result(run_id,pipeline_name,model_filter,src,tgt,ctype,status,details,sql) %}
 {% set q %}
-INSERT INTO SCH_AUDIT.DQ_RESULTS
+INSERT INTO PRACTICE.DQ_RESULTS
 VALUES ('{{run_id}}','{{pipeline_name}}','{{model_filter}}','{{src}}','{{tgt}}','{{ctype}}','{{status}}','{{details}}','{{sql|replace("'","''")}}',CURRENT_TIMESTAMP)
 {% endset %}
 {% do run_query(q) %}
@@ -75,7 +75,7 @@ VALUES ('{{run_id}}','{{pipeline_name}}','{{model_filter}}','{{src}}','{{tgt}}',
 {% macro run_dq_framework(model_filter,pipeline_name) %}
 {% set run_id_query %}
 SELECT 'RUN_'||TO_VARCHAR(CURRENT_DATE,'YYYYMMDD')||'_'||LPAD(COALESCE(MAX(TO_NUMBER(SPLIT_PART(RUN_ID,'_',3))),0)+1,4,'0')
-FROM SCH_AUDIT.DQ_RESULTS
+FROM PRACTICE.DQ_RESULTS
 WHERE RUN_ID LIKE 'RUN_'||TO_VARCHAR(CURRENT_DATE,'YYYYMMDD')||'_%'
 {% endset %}
 {% set run_id=run_query(run_id_query).columns[0].values()[0] %}
